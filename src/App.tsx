@@ -14,7 +14,7 @@ const App = () =>  {
   return (
     <div>
       <SearchInput setResponse={setResponse} />
-	{response.data && <Books books={response.data.items} /> }
+	    {response.data && <Books books={response.data.items} /> }
     </div>
   )
 }
