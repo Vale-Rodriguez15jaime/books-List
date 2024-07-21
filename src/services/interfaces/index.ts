@@ -19,7 +19,7 @@ const bookItemSchema = z
       publishedDate: z.string().nullish(),
       description: z.string().nullish(),
       pageCount: z.number().nullish(),
-      categories: z.array(z.string()),
+      categories: z.array(z.string()).nullish(),
       imageLinks: z
         .object({
           smallThumbnail: z.string().nullish(),

@@ -1,16 +1,21 @@
 import Books from '@components/Books'
+import Loader from '@components/Loader'
 import SearchInput from '@containers/SearchInput'
-import { useGetListBooksByCategory } from '@hooks/useGetListBooksByCategory'
-import { FC } from 'react'
+import { useGetListBooks } from '@hooks/useGetListBooks'
+import { FC, useEffect, useState } from 'react'
 
 const WrapperPageBooks: FC = () => {
-  const { isLoading, data } = useGetListBooksByCategory({})
-  console.log('data', isLoading, data)
+  const [search, setSearch] = useState<string | undefined>(undefined)
+  const { isLoading, data, refetch } = useGetListBooks({ search })
+
+  useEffect(() => {
+    void refetch()
+  }, [search])
 
   return (
     <>
-      <SearchInput setResponse={() => console.log('data')} />
-      <Books books={data?.data?.items || []} />
+      <SearchInput onCaptureSearchValue={(currentSearch: string) => setSearch(currentSearch)} />
+      {isLoading ? <Loader /> : <Books books={data?.data?.items || []} />}
     </>
   )
 }
