@@ -1,5 +1,7 @@
 import { z } from 'zod'
 
+export type BookItemType = z.infer<typeof bookItemSchema>
+
 const baseResponseSchema = z
   .object({
     totalItems: z.number()
@@ -8,6 +10,7 @@ const baseResponseSchema = z
 
 const bookItemSchema = z
   .object({
+    id: z.string(),
     volumeInfo: z.object({
       title: z.string(),
       subtitle: z.string().nullish(),

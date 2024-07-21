@@ -1,9 +1,10 @@
 import React from 'react'
-import Book , { BookType }from '../Book'
+import Book from '../Book'
 import './books.css'
+import { BookItemType } from 'src/services/interfaces'
 
 export interface BooksProps {
-  books: BookType[]
+  books: BookItemType[]
 }
 
 const Books = ({ books }: BooksProps) => {

@@ -1,7 +1,7 @@
 import React from 'react'
 import {render, waitFor, fireEvent, screen} from '@testing-library/react'
 import axiosMock from 'axios'
-import SearchInput from './'
+import SearchInput from '.'
 
 const book = {
   id: 'SqikDwAAQBAJ',
@@ -20,7 +20,7 @@ test('SearchInput: Should get books when SearchInput is mounted' ,async () => {
   const setResponse = jest.fn()
   const books = {items: [book]}
   const response = {data: books}
-  axiosMock.get.mockResolvedValue(response)
+  // axiosMock.get.mockResolvedValue(response)
 
   render(<SearchInput setResponse={setResponse} />)
   await waitFor(() => {
@@ -34,7 +34,7 @@ test('SearchInput: Should get books when click on Buscar', async () => {
   const setResponse = jest.fn()
   const books = {items: [book]}
   const response = {data: books}
-  axiosMock.get.mockResolvedValue(response)
+  // axiosMock.get.mockResolvedValue(response)
 
   render(<SearchInput setResponse={setResponse} />)
   await waitFor(() => {

@@ -26,15 +26,17 @@ const SearchInput = ({setResponse}: SearchInputProps) => {
     <div className="search">
       <h1>GOOGLE BOOKS</h1>
       <input
-	className="search-input"
-	type="text"
-	placeholder="Buscar un libro"
-	value={searchValue}
-	onChange={handleInputChange}
+        className="search-input"
+        type="text"
+        placeholder="Buscar un libro"
+        value={searchValue}
+        onChange={handleInputChange}
       />
-      <button className="search-button" onClick={() => getBooks(searchValue)}>Buscar</button>
+      <button className="search-button" onClick={() => getBooks(searchValue)}>
+        Buscar
+      </button>
     </div>
-  )
+  );
 }
 
 export default SearchInput
