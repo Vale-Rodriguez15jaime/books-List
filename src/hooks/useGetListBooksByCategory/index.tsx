@@ -1,7 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
-import { getBooksByCategory } from 'src/services/queries';
+import { useQuery } from '@tanstack/react-query'
+import { getBooksByCategory } from 'src/services/queries'
 
-export const useGetListBooksByCategory = (category: string) => {
+export const useGetListBooksByCategory = ({
+  category = 'science fiction film'
+}: {
+  category?: string
+}) => {
   const {
     data,
     isFetching: isLoading,
@@ -9,13 +13,13 @@ export const useGetListBooksByCategory = (category: string) => {
     refetch
   } = useQuery({
     queryKey: ['getByCategory', category],
-    queryFn: () => getBooksByCategory(category)
-  });
+    queryFn: () => getBooksByCategory({ category })
+  })
 
   return {
     data,
     isLoading,
     error,
     refetch
-  };
-};
+  }
+}
