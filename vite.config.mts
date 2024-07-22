@@ -5,7 +5,6 @@ import { defineConfig } from 'vite'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import svgrPlugin from 'vite-plugin-svgr'
 import viteTsconfigPaths from 'vite-tsconfig-paths'
-import { configDefaults } from 'vitest/config'
 import { config } from 'dotenv'
 
 config()
@@ -27,7 +26,8 @@ export default defineConfig({
       },
       { find: '@pages', replacement: path.resolve(__dirname, 'src/pages') },
       { find: '@routes', replacement: path.resolve(__dirname, 'src/routes') },
-      { find: '@utils', replacement: path.resolve(__dirname, 'src/utils') }
+      { find: '@utils', replacement: path.resolve(__dirname, 'src/utils') },
+      { find: '@src', replacement: path.resolve(__dirname, 'src') }
     ]
   },
   build: {
@@ -59,9 +59,4 @@ export default defineConfig({
       // inject: { data: Object.assign({  }, process.env) },
     })
   ],
-  test: {
-    environment: 'jsdom',
-    globals: true,
-    exclude: [...configDefaults.exclude, '**/node_modules/**']
-  }
 })

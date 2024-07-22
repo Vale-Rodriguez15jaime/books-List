@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { getBooks } from 'src/services/queries'
+import { getBooks } from '@src/services/queries'
 
 export const useGetListBooks = ({
   category = 'science fiction film',
@@ -16,7 +16,7 @@ export const useGetListBooks = ({
   } = useQuery({
     queryKey: ['getBooks', search || category],
     queryFn: () => getBooks({ category, search }),
-    enabled: false,
+    enabled: false
   })
 
   return {

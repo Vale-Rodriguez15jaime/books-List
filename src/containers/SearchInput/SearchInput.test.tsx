@@ -1,54 +1,38 @@
-import React from 'react'
-import {render, waitFor, fireEvent, screen} from '@testing-library/react'
-import axiosMock from 'axios'
+import { render, fireEvent, screen } from '@testing-library/react'
 import SearchInput from '.'
 
-const book = {
-  id: 'SqikDwAAQBAJ',
-  volumeInfo: {
-    title: 'JavaScript - Aprende a programar en el lenguaje de la web',
-    authors: ["Fernando Luna"],
-    publishedDate: "2019-07-23",
-    imageLinks: {
-      "smallThumbnail": "http://books.google.com/books/content?id=SqikDwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
-      "thumbnail": "http://books.google.com/books/content?id=SqikDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-    },
-  }
-}
+import '@testing-library/jest-dom'
 
-test('SearchInput: Should get books when SearchInput is mounted' ,async () => {
-  const setResponse = jest.fn()
-  const books = {items: [book]}
-  const response = {data: books}
-  // axiosMock.get.mockResolvedValue(response)
+test('renders differents texts in the component', () => {
+  render(<SearchInput onCaptureSearchValue={() => {}} />);
+  
+  expect(screen.getByText(/GOOGLE BOOKS/i)).toBeInTheDocument();
+  expect(screen.getByPlaceholderText(/Buscar un libro/i)).toBeInTheDocument();
+  expect(screen.getByText(/Buscar/i)).toBeInTheDocument();
+});
 
-  render(<SearchInput setResponse={setResponse} />)
-  await waitFor(() => {
-    expect(setResponse).toBeCalledWith(response)
-  })
+test('input value', () => {
+  render(<SearchInput onCaptureSearchValue={() => {}} />);
+  
+  const input = screen.getByPlaceholderText(/Buscar un libro/i);
+  fireEvent.change(input, { target: { value: 'Harry' } });
+  expect(input).toHaveValue('Harry');
+});
 
-})
+test('calls onCaptureSearchValue when button is clicked', () => {
+  const mockCaptureSearchValue = jest.fn();
+  render(<SearchInput onCaptureSearchValue={mockCaptureSearchValue} />);
+  
+  fireEvent.change(screen.getByPlaceholderText(/Buscar un libro/i), { target: { value: 'Harry' } });
+  fireEvent.click(screen.getByText(/Buscar/i));
+  expect(mockCaptureSearchValue).toHaveBeenCalledWith('Harry');
+});
 
+test('calls onCaptureSearchValue when Enter key is pressed', () => {
+  const mockCaptureSearchValue = jest.fn();
+  render(<SearchInput onCaptureSearchValue={mockCaptureSearchValue} />);
 
-test('SearchInput: Should get books when click on Buscar', async () => {
-  const setResponse = jest.fn()
-  const books = {items: [book]}
-  const response = {data: books}
-  // axiosMock.get.mockResolvedValue(response)
-
-  render(<SearchInput setResponse={setResponse} />)
-  await waitFor(() => {
-    expect(setResponse).toBeCalledWith(response)
-  })
-
-  fireEvent.change(screen.getByPlaceholderText(/Buscar/i),
-    { target: { value: 'javascript' } }
-  )
-
-  fireEvent.click(screen.getByText('Buscar'))
-
-  await waitFor(() => {
-    expect(setResponse).toBeCalledTimes(2)
-  })
-
-})
+  fireEvent.change(screen.getByPlaceholderText(/Buscar un libro/i), { target: { value: 'Harry' } });
+  fireEvent.keyDown(screen.getByPlaceholderText(/Buscar un libro/i), { key: 'Enter', code: 'Enter', charCode: 13 });
+  expect(mockCaptureSearchValue).toHaveBeenCalledWith('Harry');
+});
