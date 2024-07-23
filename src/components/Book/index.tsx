@@ -7,6 +7,7 @@ import { FaHeart } from 'react-icons/fa'
 import { FaComment } from 'react-icons/fa'
 import { bookSavedType } from '@components/Books/interfaces'
 import { useEffect, useState } from 'react'
+import CommentsModal from '@containers/CommentsModal'
 
 export interface BookProps {
   book: BookItemType
@@ -17,6 +18,12 @@ export interface BookProps {
 
 const Book = ({ book, isActionable, onActionBook, extraInfo }: BookProps) => {
   const [actionsBook, setActionsBook] = useState<bookSavedType | null>(null)
+  const [isOpenModalComments, setIsOpenModalComments] = useState<boolean>(false)
+
+  const handleSubmitComment = (comment: string) => {
+    onActionBook(book.id, 'comment', comment)
+    setIsOpenModalComments(false)
+  }
 
   useEffect(() => {
     if (extraInfo) {
@@ -45,10 +52,18 @@ const Book = ({ book, isActionable, onActionBook, extraInfo }: BookProps) => {
             {actionsBook?.isLike && <FaHeart className="heart-icon red-heart" />}
             {!actionsBook?.isLike && <CiHeart className="heart-icon" />}
           </button>
-          <button className="comment-button">
+          <button className="comment-button" onClick={() => setIsOpenModalComments(true)}>
             <FaComment className="comment-icon" />
           </button>
         </div>
+      )}
+      {isOpenModalComments && (
+        <CommentsModal
+          onClose={() => setIsOpenModalComments(false)}
+          isOpen={isOpenModalComments}
+          comments={actionsBook?.comments}
+          onSubmit={handleSubmitComment}
+        />
       )}
     </div>
   )
