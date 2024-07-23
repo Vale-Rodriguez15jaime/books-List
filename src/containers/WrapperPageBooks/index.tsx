@@ -4,7 +4,7 @@ import SearchInput from '@containers/SearchInput'
 import { useGetListBooks } from '@hooks/useGetListBooks'
 import { FC, useEffect, useState } from 'react'
 
-const WrapperPageBooks: FC = () => {
+const WrapperPageBooks: FC<{ isActionable?: boolean }> = ({ isActionable }) => {
   const [search, setSearch] = useState<string | undefined>(undefined)
   const { isLoading, data, refetch } = useGetListBooks({ search })
 
@@ -15,7 +15,7 @@ const WrapperPageBooks: FC = () => {
   return (
     <>
       <SearchInput onCaptureSearchValue={(currentSearch: string) => setSearch(currentSearch)} />
-      {isLoading ? <Loader /> : <Books books={data?.data?.items || []} />}
+      {isLoading ? <Loader /> : <Books books={data?.data?.items || []} isActionable={isActionable} />}
     </>
   )
 }
