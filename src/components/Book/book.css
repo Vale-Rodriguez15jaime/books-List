@@ -32,7 +32,7 @@
   color: #333;
   font-weight: bold;
   padding-top: 0.625rem;
-  font-size: 1rem;
+  font-size: 1rem !important;
 }
 
 .container-action {
@@ -44,7 +44,8 @@
 }
 
 .heart-button,
-.comment-button {
+.comment-button,
+.view-button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -61,6 +62,7 @@
 }
 
 .heart-button:hover,
+.view-button:hover,
 .comment-button:hover {
   background-color: #f5f5f5;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
@@ -68,11 +70,17 @@
 }
 
 .heart-button:active,
+.view-button:active,
 .comment-button:active {
   transform: scale(0.95);
 }
 
 .heart-icon {
+  font-size: 1.5rem;
+  color: #474747;
+}
+
+.view-icon {
   font-size: 1.5rem;
   color: #474747;
 }

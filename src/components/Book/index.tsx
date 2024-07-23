@@ -2,12 +2,12 @@ import './book.css'
 import { BookItemType } from 'src/services/interfaces'
 
 import { CiHeart } from 'react-icons/ci'
-import { FaHeart } from 'react-icons/fa'
+import { FaHeart, FaComment, FaEye } from 'react-icons/fa'
 
-import { FaComment } from 'react-icons/fa'
 import { bookSavedType } from '@components/Books/interfaces'
 import { useEffect, useState } from 'react'
 import CommentsModal from '@containers/CommentsModal'
+import DetailModal from '@containers/DetailModal'
 
 export interface BookProps {
   book: BookItemType
@@ -18,11 +18,18 @@ export interface BookProps {
 
 const Book = ({ book, isActionable, onActionBook, extraInfo }: BookProps) => {
   const [actionsBook, setActionsBook] = useState<bookSavedType | null>(null)
-  const [isOpenModalComments, setIsOpenModalComments] = useState<boolean>(false)
+  const [isOpenModal, setIsOpenModal] = useState<{
+    isOpen: boolean
+    action: string | null
+  }>({ isOpen: false, action: null })
+
+  const handleResetModal = () => {
+    setIsOpenModal({ isOpen: false, action: null })
+  }
 
   const handleSubmitComment = (comment: string) => {
     onActionBook(book.id, 'comment', comment)
-    setIsOpenModalComments(false)
+    handleResetModal()
   }
 
   useEffect(() => {
@@ -55,7 +62,10 @@ const Book = ({ book, isActionable, onActionBook, extraInfo }: BookProps) => {
               <CiHeart className="heart-icon" />
             )}
           </button>
-          <button className="comment-button" onClick={() => setIsOpenModalComments(true)}>
+          <button
+            className="comment-button"
+            onClick={() => setIsOpenModal({ isOpen: true, action: 'comment' })}
+          >
             <FaComment
               className={
                 actionsBook?.comments && actionsBook?.comments?.length > 0
@@ -67,14 +77,28 @@ const Book = ({ book, isActionable, onActionBook, extraInfo }: BookProps) => {
               <span className="comment-badge">{actionsBook.comments.length}</span>
             )}
           </button>
+          <button
+            className="view-button"
+            onClick={() => setIsOpenModal({ isOpen: true, action: 'detail' })}
+          >
+            <FaEye className="view-icon" />
+          </button>
         </div>
       )}
-      {isOpenModalComments && (
+      {isOpenModal.isOpen && isOpenModal.action === 'comment' && (
         <CommentsModal
-          onClose={() => setIsOpenModalComments(false)}
-          isOpen={isOpenModalComments}
+          onClose={() => handleResetModal()}
+          isOpen={isOpenModal.isOpen}
           comments={actionsBook?.comments}
           onSubmit={handleSubmitComment}
+        />
+      )}
+      {isOpenModal.isOpen && isOpenModal.action === 'detail' && (
+        <DetailModal
+          onClose={() => handleResetModal()}
+          isOpen={isOpenModal.isOpen}
+          book={book}
+          comments={actionsBook?.comments}
         />
       )}
     </div>
