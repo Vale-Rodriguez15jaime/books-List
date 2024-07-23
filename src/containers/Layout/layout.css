@@ -1,0 +1,34 @@
+.button-container {
+  display: flex;
+  gap: 1.25rem;
+  justify-content: end;
+  margin: 1.25rem 0.625rem 0 0;
+}
+
+.button-nav {
+  border: 1px solid #093b6c;
+  background: #fff;
+  color: #093b6c;
+  border-radius: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.button-nav:hover {
+  box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.button-nav:active {
+  transform: scale(0.95);
+}
+
+.button-selected {
+  background: #093b6c;
+  color: #fff;
+}

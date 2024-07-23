@@ -1,5 +1,6 @@
 import Books from '@components/Books'
 import Loader from '@components/Loader'
+import Layout from '@containers/Layout'
 import SearchInput from '@containers/SearchInput'
 import { useGetListBooks } from '@hooks/useGetListBooks'
 import { FC, useEffect, useState } from 'react'
@@ -13,10 +14,16 @@ const WrapperPageBooks: FC<{ isActionable?: boolean }> = ({ isActionable }) => {
   }, [search])
 
   return (
-    <>
-      <SearchInput onCaptureSearchValue={(currentSearch: string) => setSearch(currentSearch)} />
-      {isLoading ? <Loader /> : <Books books={data?.data?.items || []} isActionable={isActionable} />}
-    </>
+    <Layout>
+      <SearchInput
+        onCaptureSearchValue={(currentSearch: string) => setSearch(currentSearch)}
+      />
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <Books books={data?.data?.items || []} isActionable={isActionable} />
+      )}
+    </Layout>
   )
 }
 

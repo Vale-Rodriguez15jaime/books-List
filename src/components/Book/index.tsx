@@ -49,11 +49,23 @@ const Book = ({ book, isActionable, onActionBook, extraInfo }: BookProps) => {
       {isActionable && (
         <div className="container-action">
           <button className="heart-button" onClick={() => onActionBook(book.id, 'like')}>
-            {actionsBook?.isLike && <FaHeart className="heart-icon red-heart" />}
-            {!actionsBook?.isLike && <CiHeart className="heart-icon" />}
+            {actionsBook?.isLike ? (
+              <FaHeart className="heart-icon red-heart" />
+            ) : (
+              <CiHeart className="heart-icon" />
+            )}
           </button>
           <button className="comment-button" onClick={() => setIsOpenModalComments(true)}>
-            <FaComment className="comment-icon" />
+            <FaComment
+              className={
+                actionsBook?.comments && actionsBook?.comments?.length > 0
+                  ? 'comment-icon'
+                  : 'comment-icon-empty'
+              }
+            />
+            {actionsBook && actionsBook?.comments?.length > 0 && (
+              <span className="comment-badge">{actionsBook.comments.length}</span>
+            )}
           </button>
         </div>
       )}
