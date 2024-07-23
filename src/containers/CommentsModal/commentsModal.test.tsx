@@ -1,37 +1,45 @@
-import React from 'react'
-import { render, screen, fireEvent, act } from '@testing-library/react'
+import { ReactNode } from 'react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import CommentsModal from './index'
 
 jest.mock('react-dom', () => {
-  const original = jest.requireActual('react-dom');
+  const original = jest.requireActual('react-dom')
   return {
     ...original,
     createPortal: jest.fn((element, container) => {
-      return element;
-    }),
-  };
-});
-
+      return element
+    })
+  }
+})
 
 jest.mock('react-icons/io5', () => ({
-  IoCloseSharp: () => <span>Close</span>,
-}));
+  IoCloseSharp: () => <span>Close</span>
+}))
 
 jest.mock('@components/Modal', () => {
   return {
     __esModule: true,
-    default: ({ children, isOpen, onClose, onSubmit }: {
-      children: React.ReactNode;
-      isOpen: boolean;
-      onClose: () => void;
-      onSubmit: () => void;
-    }) => 
+    default: ({
+      children,
+      isOpen,
+      onClose,
+      onSubmit
+    }: {
+      children: ReactNode
+      isOpen: boolean
+      onClose: () => void
+      onSubmit: () => void
+    }) =>
       isOpen ? (
         <div data-testid="modal">
           <div className="modal-content">
             {children}
-            <button onClick={onSubmit} className="modal-button">Enviar</button>
+            {onSubmit && (
+              <button onClick={onSubmit} className="modal-button">
+                Enviar
+              </button>
+            )}
             <button onClick={onClose} className="modal-close-button">
               <span>Close</span>
             </button>
@@ -39,7 +47,7 @@ jest.mock('@components/Modal', () => {
         </div>
       ) : null
   }
-});
+})
 
 describe('CommentsModal', () => {
   const mockOnClose = jest.fn()
@@ -61,7 +69,10 @@ describe('CommentsModal', () => {
   })
 
   test('renders list comments', () => {
-    const comments = ['El libro de harry potter es bueno', 'El libro de harry potter es medio bueno']
+    const comments = [
+      'El libro de harry potter es bueno',
+      'El libro de harry potter es medio bueno'
+    ]
     render(
       <CommentsModal
         onClose={mockOnClose}
@@ -83,15 +94,21 @@ describe('CommentsModal', () => {
 
   test('updates input value', () => {
     render(<CommentsModal onClose={mockOnClose} onSubmit={mockOnSubmit} isOpen={true} />)
-    const textarea = screen.getByPlaceholderText('Escribe un comentario...') as HTMLTextAreaElement
+    const textarea = screen.getByPlaceholderText(
+      'Escribe un comentario...'
+    ) as HTMLTextAreaElement
     fireEvent.change(textarea, { target: { value: 'El libro de harry potter es bueno' } })
     expect(textarea.value).toBe('El libro de harry potter es bueno')
   })
 
   test('calls onSubmit when submit button is clicked', () => {
     render(<CommentsModal onClose={mockOnClose} onSubmit={mockOnSubmit} isOpen={true} />)
-    const textarea = screen.getByPlaceholderText('Escribe un comentario...') as HTMLTextAreaElement
-    fireEvent.change(textarea, { target: { value: 'El libro de harry potter es medio bueno' } })
+    const textarea = screen.getByPlaceholderText(
+      'Escribe un comentario...'
+    ) as HTMLTextAreaElement
+    fireEvent.change(textarea, {
+      target: { value: 'El libro de harry potter es medio bueno' }
+    })
     fireEvent.click(screen.getByText('Enviar'))
     expect(mockOnSubmit).toHaveBeenCalledWith('El libro de harry potter es medio bueno')
   })

@@ -7,7 +7,7 @@ import './modal.css'
 type ModalProps = {
   isOpen: boolean
   onClose: () => void
-  onSubmit: () => void
+  onSubmit?: () => void
   children: ReactNode
 }
 
@@ -30,9 +30,11 @@ const Modal: FC<ModalProps> = ({ isOpen, onClose, onSubmit, children }) => {
     <div className="modal-overlay">
       <div className="modal-content">
         {children}
-        <button onClick={onSubmit} className="modal-button">
-          Enviar
-        </button>
+        {onSubmit && (
+          <button onClick={onSubmit} className="modal-button">
+            Enviar
+          </button>
+        )}
         <button onClick={onClose} className="modal-close-button">
           <IoCloseSharp />
         </button>

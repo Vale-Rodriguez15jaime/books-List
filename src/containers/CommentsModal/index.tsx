@@ -1,6 +1,7 @@
 import Modal from '@components/Modal'
 import { FC, useState } from 'react'
 import './commentsModal.css'
+import CommentsList from '@components/CommentsList'
 
 type CommentsProps = {
   onClose: () => void
@@ -18,18 +19,7 @@ const CommentsModal: FC<CommentsProps> = ({ onClose, isOpen, comments = [], onSu
 
   return (
     <Modal onSubmit={handleSubmit} onClose={onClose} isOpen={isOpen}>
-      {comments.length > 0 && (
-        <div>
-          <span className="comments-title">Lista de comentarios</span>
-          <div className="comments-list">
-            {comments?.map((item: string, index: number) => (
-              <div className="item-comment" key={index}>
-                <p>{item}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+      {comments.length > 0 && <CommentsList comments={comments} />}
 
       <textarea
         value={comment}

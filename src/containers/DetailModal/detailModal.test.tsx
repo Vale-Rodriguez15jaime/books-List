@@ -1,4 +1,4 @@
-import React from 'react'
+import { ReactNode } from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import DetailModal from './index'
@@ -27,7 +27,7 @@ jest.mock('@components/Modal', () => {
       onClose,
       onSubmit
     }: {
-      children: React.ReactNode
+      children: ReactNode
       isOpen: boolean
       onClose: () => void
       onSubmit: () => void
