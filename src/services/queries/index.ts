@@ -24,7 +24,6 @@ export const getBooks = async ({
     })
     return getListBooksResponseSchema.safeParse(data)
   } catch (error) {
-    console.log('error!')
     throw error
   }
 }

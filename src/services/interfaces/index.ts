@@ -4,7 +4,7 @@ export type BookItemType = z.infer<typeof bookItemSchema>
 
 const baseResponseSchema = z
   .object({
-    totalItems: z.number()
+    totalItems: z.number().nullish()
   })
   .passthrough()
 

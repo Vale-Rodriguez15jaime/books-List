@@ -1,9 +1,10 @@
-import { render, screen, fireEvent, act, waitFor, cleanup } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import Book, { BookProps } from './index'
 import { BookItemType } from 'src/services/interfaces'
 import { bookSavedType } from '@containers/Books/interfaces'
 import { mockBook } from '@src/constants'
+import { act } from 'react'
 
 jest.mock('react-icons/ci', () => ({
   CiHeart: () => <span data-testid="ci-heart">IconHeartEmpty</span>
