@@ -1,4 +1,4 @@
-import Books from '@components/Books'
+import Books from '@containers/Books'
 import Loader from '@components/Loader'
 import Layout from '@containers/Layout'
 import SearchInput from '@containers/SearchInput'

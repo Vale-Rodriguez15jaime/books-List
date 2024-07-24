@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import DetailModal from './index'
-import { BookItemType } from '@src/services/interfaces'
+import { mockBook } from '@src/constants'
 
 jest.mock('react-dom', () => {
   const original = jest.requireActual('react-dom')
@@ -53,26 +53,6 @@ jest.mock('@components/Modal', () => {
     }
   }
 })
-
-const mockBook: BookItemType = {
-  id: '1',
-  volumeInfo: {
-    title: 'Harry potter y las reliquias de la muerte',
-    subtitle: 'las reliquias de la muerte',
-    authors: ['J. K. Rowling'],
-    publisher: 'publisher',
-    publishedDate: '2000-01-01',
-    description: 'Es una descripcion interesante',
-    pageCount: 500,
-    categories: ['Fantasia'],
-    canonicalVolumeLink:
-      'https://books.google.com.co/books/about/Harry_Potter.html?hl=&id=saPQsgEACAAJ&redir_esc=y',
-    imageLinks: {
-      thumbnail:
-        'https://books.google.com/books/content?id=saPQsgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api'
-    }
-  }
-}
 
 const mockComments: string[] = ['Esto es un comentario malo', 'Esto es un comentario bueno']
 

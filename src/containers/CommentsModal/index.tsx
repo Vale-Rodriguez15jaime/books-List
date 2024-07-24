@@ -19,14 +19,15 @@ const CommentsModal: FC<CommentsProps> = ({ onClose, isOpen, comments = [], onSu
 
   return (
     <Modal onSubmit={handleSubmit} onClose={onClose} isOpen={isOpen}>
-      {comments.length > 0 && <CommentsList comments={comments} />}
-
-      <textarea
-        value={comment}
-        onChange={e => setComment(e.target.value)}
-        placeholder="Escribe un comentario..."
-        className="modal-textarea"
-      />
+      <div data-testid="comments-modal">
+        {comments.length > 0 && <CommentsList comments={comments} />}
+        <textarea
+          value={comment}
+          onChange={e => setComment(e.target.value)}
+          placeholder="Escribe un comentario..."
+          className="modal-textarea"
+        />
+      </div>
     </Modal>
   )
 }

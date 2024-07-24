@@ -1,4 +1,4 @@
-import { act, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Book from '../Book'
 import './books.css'
 import { BookItemType } from 'src/services/interfaces'
