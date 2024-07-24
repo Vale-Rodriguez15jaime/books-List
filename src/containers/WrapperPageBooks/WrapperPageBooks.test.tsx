@@ -1,52 +1,43 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import WrapperPageBooks from './index';
-import '@testing-library/jest-dom';
-import { useGetListBooks } from '@hooks/useGetListBooks';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import '@testing-library/jest-dom'
+import { MemoryRouter } from 'react-router-dom'
+import WrapperPageBooks from './index'
+import { useGetListBooks } from '@hooks/useGetListBooks'
+import { mockBook } from '@src/constants'
 
 jest.mock('@hooks/useGetListBooks', () => ({
-  useGetListBooks: jest.fn(),
-}));
+  useGetListBooks: jest.fn()
+}))
 
-const book = {
-  id: 'SqikDwAAQBAJ',
-  volumeInfo: {
-    title: 'JavaScript - Aprende a programar en el lenguaje de la web',
-    authors: ['Fernando Luna'],
-    publishedDate: '2019-07-23',
-    imageLinks: {
-      smallThumbnail:
-        'http://books.google.com/books/content?id=SqikDwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api',
-      thumbnail:
-        'http://books.google.com/books/content?id=SqikDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'
-    }
-  }
-};
+const renderWithRouter = (ui: React.ReactElement) => {
+  return render(<MemoryRouter>{ui}</MemoryRouter>)
+}
 
 test('renders Books when data is loaded', () => {
-  (useGetListBooks as jest.Mock).mockReturnValue({
+  ;(useGetListBooks as jest.Mock).mockReturnValue({
     isLoading: false,
-    data: { data: { items: [book] } },
-    refetch: jest.fn(),
-  });
+    data: { data: { items: [mockBook] } },
+    refetch: jest.fn()
+  })
 
-  render(<WrapperPageBooks />);
-  expect(screen.getByText(/JavaScript - Aprende a programar en el lenguaje de la web/i)).toBeInTheDocument();
-});
+  renderWithRouter(<WrapperPageBooks />)
+  expect(screen.getByText(/Harry potter y las reliquias de la muerte/i)).toBeInTheDocument()
+})
 
 test('calls refetch when search value changes', async () => {
-  const refetchMock = jest.fn();
+  const refetchMock = jest.fn()
 
-  (useGetListBooks as jest.Mock).mockReturnValue({
+  ;(useGetListBooks as jest.Mock).mockReturnValue({
     isLoading: false,
     data: { data: { items: [] } },
-    refetch: refetchMock,
-  });
+    refetch: refetchMock
+  })
 
-  render(<WrapperPageBooks />);
+  renderWithRouter(<WrapperPageBooks />)
 
-  fireEvent.change(screen.getByRole('textbox'), { target: { value: 'Harry' } });
+  fireEvent.change(screen.getByRole('textbox'), { target: { value: 'Harry' } })
 
   await waitFor(() => {
-    expect(refetchMock).toHaveBeenCalled();
-  });
-});
+    expect(refetchMock).toHaveBeenCalled()
+  })
+})
