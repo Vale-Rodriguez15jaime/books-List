@@ -1,0 +1,111 @@
+.container {
+  background-color: #ffffff;
+  border-radius: 0.625rem;
+  padding: 0.5rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  margin: 0.625rem;
+}
+
+.book {
+  text-align: center;
+  width: 100%;
+}
+
+.book-image {
+  width: 100%;
+  max-width: 100%;
+  padding: 0.5rem;
+}
+
+.book-image img {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 4px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.book-title {
+  color: #333;
+  font-weight: bold;
+  padding-top: 0.625rem;
+  font-size: 1rem !important;
+}
+
+.container-action {
+  display: flex;
+  gap: 0.625rem;
+  align-items: center;
+  margin-top: 0.625rem;
+  justify-content: center;
+}
+
+.heart-button,
+.comment-button,
+.view-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-color: #fff;
+  border: none;
+  border-radius: 50%;
+  padding: 0.625rem;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.heart-button:hover,
+.view-button:hover,
+.comment-button:hover {
+  background-color: #f5f5f5;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.heart-button:active,
+.view-button:active,
+.comment-button:active {
+  transform: scale(0.95);
+}
+
+.heart-icon {
+  font-size: 1.5rem;
+  color: #474747;
+}
+
+.view-icon {
+  font-size: 1.5rem;
+  color: #474747;
+}
+
+.red-heart {
+  color: #f44336;
+}
+
+.comment-icon {
+  font-size: 1.5rem;
+  color: #051d5f;
+}
+
+.comment-icon-empty {
+  color: #b6b7b8;
+  font-size: 1.5rem;
+}
+
+.comment-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #064b90;
+  color: #fff;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+}
