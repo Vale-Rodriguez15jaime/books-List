@@ -31,4 +31,5 @@ This project is a web application for exploring books. The application is built 
   ```bash
   npm run build
 
-## Link
+## Public-facing Link
+https://books-val.web.app/
