@@ -11,7 +11,7 @@ type CommentsProps = {
 }
 
 const CommentsModal: FC<CommentsProps> = ({ onClose, isOpen, comments = [], onSubmit }) => {
-  const [comment, setComment] = useState('')
+  const [comment, setComment] = useState<string>('')
 
   const handleSubmit = () => {
     onSubmit(comment)
