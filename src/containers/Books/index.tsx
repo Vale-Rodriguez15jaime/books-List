@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import Book from '../Book'
 import './books.css'
 import { BookItemType } from 'src/services/interfaces'
@@ -12,19 +12,19 @@ export interface BooksProps {
 const Books = ({ books, isActionable = false }: BooksProps) => {
   const [booksSaved, setBooksSaved] = useState<bookSavedType[]>([])
 
-  const loadBookFromLocalStorage = () => {
+  const loadBookFromLocalStorage = useCallback(() => {
     const currentBooks = JSON.parse(localStorage.getItem('books') || '[]') || []
     setBooksSaved(currentBooks)
-  }
+  }, [])
 
-  const handleSaveBook = (id: string, action: string, comment?: string) => {
+  const handleSaveBook = useCallback((id: string, action: string, comment?: string) => {
     const booksSaved = JSON.parse(localStorage.getItem('books') || '[]') || []
 
     let valueToSave = [...booksSaved]
     const findBook = booksSaved.findIndex((item: bookSavedType) => item.id === id)
     let copyCurrentBook = booksSaved[findBook]
-    if (findBook) {
-      copyCurrentBook
+    if (findBook !== -1) {
+      copyCurrentBook = booksSaved[findBook]
     }
 
     switch (action) {
@@ -34,27 +34,25 @@ const Books = ({ books, isActionable = false }: BooksProps) => {
             ...copyCurrentBook,
             isLike: !copyCurrentBook.isLike
           })
-          break
         } else {
           valueToSave = [...valueToSave, { id, isLike: true, comments: [] }]
-          break
         }
+        break
       case 'comment':
         if (findBook !== -1) {
           valueToSave.splice(findBook, 1, {
             ...copyCurrentBook,
             comments: [...copyCurrentBook.comments, comment || '']
           })
-          break
         } else {
           valueToSave = [...valueToSave, { id, isLike: false, comments: [comment || ''] }]
-          break
         }
+        break
     }
 
     localStorage.setItem('books', JSON.stringify(valueToSave))
     setBooksSaved(valueToSave)
-  }
+  }, [])
 
   useEffect(() => {
     if (isActionable) {
@@ -62,19 +60,29 @@ const Books = ({ books, isActionable = false }: BooksProps) => {
     }
   }, [])
 
-  return (
-    <div className="books">
-      {books.map(book => (
-        <Book
-          key={book.id}
-          book={book}
-          isActionable={isActionable}
-          onActionBook={handleSaveBook}
-          extraInfo={booksSaved.find((item: bookSavedType) => item.id === book.id)}
-        />
-      ))}
-    </div>
-  )
+  const extraInfoMap = useMemo(() => {
+    return booksSaved.reduce(
+      (acc, book) => {
+        acc[book.id] = book
+        return acc
+      },
+      {} as Record<string, bookSavedType>
+    )
+  }, [booksSaved])
+
+  const memoizedBooks = useMemo(() => {
+    return books.map(book => (
+      <Book
+        key={book.id}
+        book={book}
+        isActionable={isActionable}
+        onActionBook={handleSaveBook}
+        extraInfo={extraInfoMap[book.id]}
+      />
+    ))
+  }, [books, isActionable, extraInfoMap, handleSaveBook])
+
+  return <div className="books">{memoizedBooks}</div>
 }
 
 export default Books
